@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: hotel-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: hotel_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: hoteluser
+      MYSQL_PASSWORD: hotelpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hotel-network
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hotel-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/hotel_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      JWT_SECRET: hotelReservationSecretKey123456789012345678901234567890
+      JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads-data:/app/uploads
+    networks:
+      - hotel-network
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: hotel-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - hotel-network
+
+networks:
+  hotel-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+  uploads-data:
+    driver: local

@@ -1,0 +1,30 @@
+.reservations-container h1 {
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.no-reservations {
+  background: var(--card-background);
+  padding: 4rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.no-reservations p {
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+.reservations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .reservations-grid {
+    grid-template-columns: 1fr;
+  }
+}

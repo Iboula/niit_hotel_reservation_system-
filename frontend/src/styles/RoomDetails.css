@@ -1,0 +1,279 @@
+.room-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.room-details h1 {
+  margin-bottom: 3rem;
+  color: var(--text-primary);
+  font-size: 3rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.room-details h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 4px;
+  background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+}
+
+.room-image-carousel {
+  position: relative;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.room-image {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 15px;
+  background-color: #f3f4f6;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.room-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%);
+}
+
+.room-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.room-image:hover img {
+  transform: scale(1.05);
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(201, 169, 97, 0.9);
+  color: white;
+  border: none;
+  padding: 1rem 1.2rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s;
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn:hover {
+  background: var(--primary-color);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.prev {
+  left: 20px;
+}
+
+.carousel-btn.next {
+  right: 20px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.carousel-indicators .indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.carousel-indicators .indicator.active {
+  background: var(--primary-color);
+  transform: scale(1.3);
+  border-color: var(--primary-color);
+}
+
+.room-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.info-section,
+.reservation-section {
+  background: var(--card-background);
+  padding: 3rem;
+  border-radius: 15px;
+  box-shadow: var(--shadow-lg);
+  border: 2px solid var(--border-color);
+  transition: all 0.3s;
+}
+
+.info-section:hover,
+.reservation-section:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-5px);
+}
+
+.info-section h2,
+.reservation-section h2 {
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 1rem;
+}
+
+.info-section h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-section p {
+  margin-bottom: 1.2rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-section p strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  min-width: 120px;
+}
+
+.total-price {
+  background: linear-gradient(135deg, var(--primary-color), #b8923f);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 5px 20px rgba(201, 169, 97, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.warning-message {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-prompt {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.login-prompt a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .room-details-container {
+    padding: 0 1rem;
+  }
+
+  .room-details h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .room-image {
+    height: 300px;
+    margin-bottom: 2rem;
+  }
+
+  .room-info {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .info-section,
+  .reservation-section {
+    padding: 1.5rem;
+  }
+
+  .info-section h2,
+  .reservation-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .total-price {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+  .carousel-btn {
+    padding: 0.7rem 0.9rem;
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-btn.prev {
+    left: 10px;
+  }
+
+  .carousel-btn.next {
+    right: 10px;
+  }
+
+  .carousel-indicators .indicator {
+    width: 10px;
+    height: 10px;
+  }
+}

@@ -1,0 +1,136 @@
+.navbar {
+  background: linear-gradient(to right, #2c3e50, #34495e);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-logo::before {
+  content: "★";
+  font-size: 2rem;
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.navbar-menu a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.navbar-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: all 0.3s;
+  transform: translateX(-50%);
+}
+
+.navbar-menu a:hover {
+  color: var(--primary-color);
+}
+
+.navbar-menu a:hover::after {
+  width: 100%;
+}
+
+.user-info {
+  color: #bdc3c7;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-info::before {
+  content: "👤";
+}
+
+.btn-logout {
+  padding: 0.6rem 1.5rem;
+  background: linear-gradient(135deg, var(--danger-color), #c0392b);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+.btn-logout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .navbar-logo {
+    font-size: 1.3rem;
+  }
+
+  .navbar-menu {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .navbar-menu a {
+    font-size: 0.85rem;
+  }
+
+  .user-info {
+    font-size: 0.8rem;
+  }
+
+  .btn-logout {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+}

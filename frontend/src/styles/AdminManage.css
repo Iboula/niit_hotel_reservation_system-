@@ -1,0 +1,259 @@
+.admin-panel h1 {
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tabs button {
+  padding: 1rem 2rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabs button:hover {
+  color: var(--text-primary);
+}
+
+.tabs button.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+  margin-top: 2rem;
+}
+
+/* Rooms Section */
+.rooms-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+.room-form-section,
+.rooms-list-section {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.room-form-section h2,
+.rooms-list-section h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.rooms-table {
+  overflow-x: auto;
+}
+
+.rooms-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rooms-table th,
+.rooms-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.rooms-table th {
+  background-color: var(--background);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rooms-table td {
+  color: var(--text-secondary);
+}
+
+.rooms-table .actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Reservations Section */
+.reservations-section {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.reservations-section h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.reservations-table {
+  overflow-x: auto;
+}
+
+.reservations-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reservations-table th,
+.reservations-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reservations-table th {
+  background-color: var(--background);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.reservations-table td {
+  color: var(--text-secondary);
+}
+
+.reservations-table td small {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+}
+
+.reservations-table .status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.reservations-table .status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.reservations-table .status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.reservations-table .status-completed {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.reservations-table .status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Guests Section */
+.guests-section {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.guests-section h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.guests-table {
+  overflow-x: auto;
+}
+
+.guests-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.guests-table th,
+.guests-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.guests-table th {
+  background-color: var(--background);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.guests-table td {
+  color: var(--text-secondary);
+}
+
+/* Image Upload */
+.upload-status {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+  font-style: italic;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  max-width: 300px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+input[type="file"] {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  width: 100%;
+  background: var(--background);
+}
+
+input[type="file"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .rooms-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
+    border-bottom: none;
+  }
+
+  .tabs button {
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .tabs button.active {
+    border-left-color: var(--primary-color);
+    border-bottom-color: transparent;
+  }
+}
