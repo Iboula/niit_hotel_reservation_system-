@@ -1,15 +1,15 @@
 # Hotel Reservation System
 
-Application complète de gestion de réservations d'hôtel développée avec Spring Boot et React.
+A complete hotel reservation management application built with Spring Boot and React.
 
 ## 🏗️ Architecture
 
 - **Backend**: Spring Boot 3.2.1 + MySQL
 - **Frontend**: React 18 + TypeScript + Vite
-- **Sécurité**: JWT Authentication
-- **Déploiement**: Docker + Docker Compose
+- **Security**: JWT Authentication
+- **Deployment**: Docker + Docker Compose
 
-## 📁 Structure du Projet
+## 📁 Project Structure
 
 ```
 hotel-reservation-system/
@@ -23,49 +23,49 @@ hotel-reservation-system/
 │   ├── nginx.conf
 │   └── Dockerfile
 ├── docker-compose.yml    # Orchestration
-└── DOCKER_GUIDE.md      # Guide détaillé
+└── DOCKER_GUIDE.md      # Detailed guide
 ```
 
-## 🚀 Démarrage Rapide
+## 🚀 Quick Start
 
-### Avec Docker (Recommandé)
+### With Docker (Recommended)
 
 ```bash
-# Démarrer l'application complète
+# Start the complete application
 docker-compose up -d
 
-# Accéder à l'application
+# Access the application
 # Frontend: http://localhost
 # Backend: http://localhost:8080
 ```
 
-### Sans Docker
+### Without Docker
 
-Voir [DOCKER_GUIDE.md](DOCKER_GUIDE.md) pour les instructions détaillées.
+See [DOCKER_GUIDE.md](DOCKER_GUIDE.md) for detailed instructions.
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-### Utilisateurs
-- ✅ Inscription / Connexion
-- ✅ Authentification JWT
-- ✅ Gestion de profil
+### Users
+- ✅ Registration / Login
+- ✅ JWT Authentication
+- ✅ Profile Management
 
-### Chambres
-- ✅ Listing des chambres
-- ✅ Recherche et filtrage
-- ✅ Détails des chambres
-- ✅ Vérification de disponibilité
+### Rooms
+- ✅ Room Listing
+- ✅ Search and Filtering
+- ✅ Room Details
+- ✅ Availability Check
 
-### Réservations
-- ✅ Créer une réservation
-- ✅ Voir mes réservations
-- ✅ Annuler une réservation
-- ✅ Confirmation de réservation
+### Reservations
+- ✅ Create Reservation
+- ✅ View My Reservations
+- ✅ Cancel Reservation
+- ✅ Reservation Confirmation
 
 ### Administration
-- ✅ Gestion des chambres (CRUD)
-- ✅ Gestion des réservations
-- ✅ Gestion des clients
+- ✅ Room Management (CRUD)
+- ✅ Reservation Management
+- ✅ Guest Management
 
 ## 🛠️ Technologies
 
@@ -95,97 +95,97 @@ Voir [DOCKER_GUIDE.md](DOCKER_GUIDE.md) pour les instructions détaillées.
 ## 📚 API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - Inscription
-- `POST /api/auth/login` - Connexion
+- `POST /api/auth/register` - Register
+- `POST /api/auth/login` - Login
 
 ### Users
-- `GET /api/users` - Liste des utilisateurs
-- `GET /api/users/{id}` - Détails utilisateur
-- `PUT /api/users/{id}` - Modifier utilisateur
-- `DELETE /api/users/{id}` - Supprimer utilisateur
+- `GET /api/users` - List users
+- `GET /api/users/{id}` - Get user details
+- `PUT /api/users/{id}` - Update user
+- `DELETE /api/users/{id}` - Delete user
 
 ### Rooms
-- `GET /api/rooms` - Liste des chambres
-- `GET /api/rooms/{id}` - Détails chambre
-- `POST /api/rooms` - Créer chambre
-- `PUT /api/rooms/{id}` - Modifier chambre
-- `DELETE /api/rooms/{id}` - Supprimer chambre
-- `GET /api/rooms/search` - Recherche chambres
-- `GET /api/rooms/available` - Vérifier disponibilité
+- `GET /api/rooms` - List rooms
+- `GET /api/rooms/{id}` - Get room details
+- `POST /api/rooms` - Create room
+- `PUT /api/rooms/{id}` - Update room
+- `DELETE /api/rooms/{id}` - Delete room
+- `GET /api/rooms/search` - Search rooms
+- `GET /api/rooms/available` - Check availability
 
 ### Guests
-- `GET /api/guests` - Liste des clients
-- `GET /api/guests/{id}` - Détails client
-- `POST /api/guests` - Créer client
-- `PUT /api/guests/{id}` - Modifier client
-- `DELETE /api/guests/{id}` - Supprimer client
+- `GET /api/guests` - List guests
+- `GET /api/guests/{id}` - Get guest details
+- `POST /api/guests` - Create guest
+- `PUT /api/guests/{id}` - Update guest
+- `DELETE /api/guests/{id}` - Delete guest
 
 ### Reservations
-- `GET /api/reservations` - Liste des réservations
-- `GET /api/reservations/{id}` - Détails réservation
-- `POST /api/reservations` - Créer réservation
-- `PUT /api/reservations/{id}` - Modifier réservation
-- `DELETE /api/reservations/{id}` - Supprimer réservation
-- `PUT /api/reservations/{id}/confirm` - Confirmer réservation
-- `PUT /api/reservations/{id}/cancel` - Annuler réservation
+- `GET /api/reservations` - List reservations
+- `GET /api/reservations/{id}` - Get reservation details
+- `POST /api/reservations` - Create reservation
+- `PUT /api/reservations/{id}` - Update reservation
+- `DELETE /api/reservations/{id}` - Delete reservation
+- `PUT /api/reservations/{id}/confirm` - Confirm reservation
+- `PUT /api/reservations/{id}/cancel` - Cancel reservation
 
-## 🔒 Sécurité
+## 🔒 Security
 
-- Authentification JWT
-- Mots de passe hashés avec BCrypt
-- CORS configuré
-- Sessions stateless
-- Endpoints protégés par rôles (USER/ADMIN)
+- JWT Authentication
+- BCrypt password hashing
+- CORS configured
+- Stateless sessions
+- Role-based endpoint protection (USER/ADMIN)
 
-## 🗄️ Base de Données
+## 🗄️ Database
 
-### Entités
-- **User** - Utilisateurs du système
-- **Room** - Chambres disponibles
-- **Guest** - Informations clients
-- **Reservation** - Réservations
+### Entities
+- **User** - System users
+- **Room** - Available rooms
+- **Guest** - Guest information
+- **Reservation** - Reservations
 
-### Relations
+### Relationships
 - User ↔ Guest (One-to-Many)
 - Room ↔ Reservation (One-to-Many)
 - Guest ↔ Reservation (One-to-Many)
 
-## 📖 Documentation Complète
+## 📖 Complete Documentation
 
-Consultez [DOCKER_GUIDE.md](DOCKER_GUIDE.md) pour:
-- Guide d'installation détaillé
-- Configuration Docker et locale
-- Migration conteneur → sans conteneur
-- Dépannage
-- Commandes utiles
+See [DOCKER_GUIDE.md](DOCKER_GUIDE.md) for:
+- Detailed installation guide
+- Docker and local configuration
+- Container → non-container migration
+- Troubleshooting
+- Useful commands
 
-## 🎯 Utilisation
+## 🎯 Usage
 
-1. **Démarrer l'application**
+1. **Start the application**
    ```bash
    docker-compose up -d
    ```
 
-2. **Créer un compte admin** (via API ou base de données)
+2. **Create an admin account** (via API or database)
 
-3. **Ajouter des chambres** (via panel admin)
+3. **Add rooms** (via admin panel)
 
-4. **Tester les réservations**
+4. **Test reservations**
 
-## 🛑 Arrêter l'Application
+## 🛑 Stop the Application
 
 ```bash
-# Arrêter
+# Stop
 docker-compose stop
 
-# Arrêter et supprimer les conteneurs
+# Stop and remove containers
 docker-compose down
 
-# Tout supprimer (conteneurs + données)
+# Remove everything (containers + data)
 docker-compose down -v
 ```
 
-## 📝 Variables d'Environnement
+## 📝 Environment Variables
 
 ### Backend
 ```properties
@@ -197,43 +197,17 @@ JWT_EXPIRATION=86400000
 ```
 
 ### Frontend
-Les variables sont configurées dans le code (pas de .env nécessaire pour Docker)
+Variables are configured in code (no .env needed for Docker)
 
-## 🧪 Tests
+## 🌍 Documentation
 
-```bash
-# Backend
-cd backend
-mvn test
+- [English Version](README.md) - English version
+- [French Version](README_FR.md) - Version française
 
-# Frontend
-cd frontend
-npm test
-```
+## 📄 License
 
-## 📦 Build Production
+This project is part of NIIT educational program.
 
-```bash
-# Docker (recommandé)
-docker-compose build
+## 👨‍💻 Author
 
-# Backend seul
-cd backend
-mvn clean package
-
-# Frontend seul
-cd frontend
-npm run build
-```
-
-## 🤝 Contribution
-
-Projet d'examen - Master 1 NIIT
-
-## 📄 Licence
-
-Projet éducatif
-
----
-
-**Développé avec ❤️ pour l'examen M1**
+Developed with ❤️ for NIIT project
