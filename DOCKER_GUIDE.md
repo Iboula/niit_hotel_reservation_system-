@@ -1,131 +1,190 @@
-# 🐳 Hotel Reservation System - Guide Docker
+# 🐳 Hotel Reservation System - Docker Guide
 
-Ce guide vous explique comment exécuter l'application avec Docker et comment migrer vers une exécution sans conteneur.
-
----
-
-## 📋 Prérequis
-
-- **Docker Desktop** installé ([Télécharger](https://www.docker.com/products/docker-desktop))
-- **Docker Compose** (inclus avec Docker Desktop)
+This guide explains how to run the application with Docker and how to migrate to a containerless execution.
 
 ---
 
-## 🚀 Démarrage Rapide avec Docker
+## 📋 Prerequisites
 
-### 1. Démarrer tous les services
+- **Docker Desktop** installed ([Download](https://www.docker.com/products/docker-desktop))
+- **Docker Compose** (included with Docker Desktop)
 
-Ouvrez PowerShell dans le répertoire du projet et exécutez:
+---
+
+## 🚀 Quick Start with Docker
+
+### 1. Start all services
+
+Open PowerShell in the project directory and run:
 
 ```powershell
 cd c:\Users\iboul\Documents\NIIT\hotel-reservation-system
 docker-compose up -d
 ```
 
-Cette commande va:
-- ✅ Créer la base de données MySQL
-- ✅ Construire et démarrer le backend Spring Boot
-- ✅ Construire et démarrer le frontend React
-- ✅ Configurer le réseau entre les services
+This command will:
+- ✅ Create MySQL database
+- ✅ Build and start Spring Boot backend
+- ✅ Build and start React frontend
+- ✅ Configure network between services
 
-### 2. Vérifier le statut
+### 2. Check status
 
 ```powershell
 docker-compose ps
 ```
 
-Vous devriez voir 3 services en état "Up":
+You should see 3 services in "Up" state:
 - `hotel-mysql` (port 3306)
 - `hotel-backend` (port 8080)
 - `hotel-frontend` (port 80)
 
-### 3. Accéder à l'application
+### 3. Access the application
 
 - **Frontend**: http://localhost
 - **Backend API**: http://localhost:8080/api
 
-### 4. Voir les logs
+### 4. View logs
 
 ```powershell
-# Tous les services
+# All services
 docker-compose logs -f
 
-# Un service spécifique
+# Specific service
 docker-compose logs -f backend
 docker-compose logs -f frontend
 docker-compose logs -f mysql
 ```
 
-### 5. Arrêter l'application
+### 5. Stop the application
 
 ```powershell
-# Arrêter sans supprimer les données
+# Stop without removing containers
 docker-compose stop
 
-# Arrêter et supprimer les conteneurs (garde les données)
+# Stop and remove containers
 docker-compose down
 
-# Tout supprimer (conteneurs + données)
+# Stop and remove containers + volumes (delete database data)
 docker-compose down -v
 ```
 
 ---
 
-## 🔧 Commandes Utiles
+## 🔧 Useful Docker Commands
 
-### Reconstruire après des modifications
+### Container Management
 
 ```powershell
-# Reconstruire tout
-docker-compose up -d --build
+# Restart a specific service
+docker-compose restart backend
 
-# Reconstruire seulement le backend
+# Rebuild a service
 docker-compose up -d --build backend
 
-# Reconstruire seulement le frontend
-docker-compose up -d --build frontend
+# View running containers
+docker ps
+
+# Access container shell
+docker exec -it hotel-backend bash
+docker exec -it hotel-mysql mysql -uroot -proot hotel_db
 ```
 
-### Accéder aux conteneurs
+### Volume Management
 
 ```powershell
-# Shell dans le backend
-docker exec -it hotel-backend sh
+# List volumes
+docker volume ls
 
-# Shell dans MySQL
-docker exec -it hotel-mysql mysql -u root -proot hotel_db
+# Inspect volume
+docker volume inspect hotel-reservation-system_mysql-data
+docker volume inspect hotel-reservation-system_uploads-data
 
-# Shell dans le frontend
-docker exec -it hotel-frontend sh
-```
-
-### Nettoyer Docker
-
-```powershell
-# Supprimer les images non utilisées
-docker image prune -a
-
-# Supprimer tous les volumes non utilisés
+# Remove all unused volumes
 docker volume prune
 ```
 
+### Image Management
+
+```powershell
+# List images
+docker images
+
+# Remove unused images
+docker image prune
+
+# Remove specific image
+docker rmi hotel-reservation-system-backend
+```
+
 ---
 
-## 📦 Migration vers Exécution Sans Conteneur
+## 🔍 Troubleshooting
 
-### Prérequis pour l'exécution locale
+### Port conflicts
 
-1. **Java 17** ([OpenJDK](https://adoptium.net/))
-2. **Maven 3.6+** ([Télécharger](https://maven.apache.org/download.cgi))
-3. **Node.js 18+** ([Télécharger](https://nodejs.org/))
-4. **MySQL 8.0** ([Télécharger](https://dev.mysql.com/downloads/mysql/))
+If port 80, 3306, or 8080 is already in use:
+
+**Option 1**: Modify `docker-compose.yml`
+```yaml
+services:
+  frontend:
+    ports:
+      - "8081:80"  # Change 80 to 8081
+```
+
+**Option 2**: Stop conflicting service
+```powershell
+# Find process using port
+netstat -ano | findstr :80
+# Kill process (replace PID)
+taskkill /PID <PID> /F
+```
+
+### Services not starting
+
+```powershell
+# Check logs
+docker-compose logs backend
+
+# Rebuild from scratch
+docker-compose down -v
+docker-compose up -d --build
+```
+
+### Database connection errors
+
+```powershell
+# Wait for MySQL to be ready
+docker-compose logs mysql | findstr "ready for connections"
+
+# Verify database
+docker exec -it hotel-mysql mysql -uroot -proot -e "SHOW DATABASES;"
+```
+
+### Image upload not persisting
+
+Check if volume is properly mounted:
+```powershell
+docker volume inspect hotel-reservation-system_uploads-data
+docker exec -it hotel-backend ls -la /app/uploads
+```
 
 ---
 
-### Étape 1: Installer MySQL localement
+## 🔄 Migrate from Docker to Local Execution
 
-1. **Installer MySQL Server**
-2. **Créer la base de données**:
+### Prerequisites
+
+- **Java 17** or higher
+- **Maven 3.8+**
+- **Node.js 18+** and npm
+- **MySQL 8.0** installed locally
+
+### Step 1: Setup MySQL locally
+
+1. Install MySQL 8.0
+2. Create database and user:
 
 ```sql
 CREATE DATABASE hotel_db;
@@ -134,168 +193,157 @@ GRANT ALL PRIVILEGES ON hotel_db.* TO 'hoteluser'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
----
-
-### Étape 2: Configurer et lancer le Backend
-
-1. **Modifier** `backend/src/main/resources/application.properties`:
-
-```properties
-# Configuration MySQL locale
-spring.datasource.url=jdbc:mysql://localhost:3306/hotel_db
-spring.datasource.username=root
-spring.datasource.password=root
-
-# JPA/Hibernate
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
-# JWT
-jwt.secret=hotelReservationSecretKey123456789012345678901234567890
-jwt.expiration=86400000
-
-# Port
-server.port=8080
+3. Import initial data:
+```powershell
+mysql -uroot -p hotel_db < backend/src/main/resources/data.sql
 ```
 
-2. **Lancer le backend**:
+### Step 2: Configure Backend
+
+Update `backend/src/main/resources/application.properties`:
+
+```properties
+# Change MySQL host from 'mysql' to 'localhost'
+spring.datasource.url=jdbc:mysql://localhost:3306/hotel_db
+spring.datasource.username=hoteluser
+spring.datasource.password=hotelpass
+```
+
+### Step 3: Run Backend
 
 ```powershell
-cd c:\Users\iboul\Documents\NIIT\hotel-reservation-system\backend
+cd backend
 mvn clean install
 mvn spring-boot:run
 ```
 
-Le backend sera accessible sur http://localhost:8080
+Backend will run on http://localhost:8080
 
----
+### Step 4: Configure Frontend
 
-### Étape 3: Configurer et lancer le Frontend
+Update `frontend/src/services/apiService.ts`:
 
-1. **Modifier** `frontend/src/services/api.ts` si nécessaire pour pointer vers localhost:8080
+```typescript
+// Change base URL
+const API_BASE_URL = 'http://localhost:8080/api';
+```
 
-2. **Installer et lancer**:
+### Step 5: Run Frontend
 
 ```powershell
-cd c:\Users\iboul\Documents\NIIT\hotel-reservation-system\frontend
+cd frontend
 npm install
 npm run dev
 ```
 
-Le frontend sera accessible sur http://localhost:5173
+Frontend will run on http://localhost:5173
 
 ---
 
-## 🔄 Comparaison Docker vs Local
+## 📦 Docker Architecture
 
-| Aspect | Docker | Local |
-|--------|--------|-------|
-| **Installation** | Seulement Docker | Java, Maven, Node, MySQL |
-| **Configuration** | Automatique | Manuelle |
-| **Isolation** | Oui | Non |
-| **Portabilité** | Très haute | Dépend de l'environnement |
-| **Performance** | Bonne | Meilleure |
-| **Développement** | Hot reload limité | Hot reload complet |
-| **Déploiement** | Production-ready | Nécessite configuration serveur |
+### Services
+
+**mysql**
+- Image: mysql:8.0
+- Port: 3306
+- Volume: mysql-data (persistent database)
+- Environment: root password, database name
+
+**backend**
+- Build: backend/Dockerfile
+- Port: 8080
+- Depends on: mysql
+- Volume: uploads-data (persistent images)
+- Environment: JWT config, database connection
+
+**frontend**
+- Build: frontend/Dockerfile
+- Port: 80
+- Nginx configuration for SPA routing
+- Proxy /api requests to backend:8080
+
+### Volumes
+
+- `mysql-data`: MySQL database files
+- `uploads-data`: Uploaded room images
+
+### Network
+
+All services communicate on default Docker network:
+- Frontend → Backend: http://backend:8080
+- Backend → MySQL: jdbc:mysql://mysql:3306/hotel_db
 
 ---
 
-## 📊 Architecture Docker
+## 🔐 Production Deployment
 
+### Security Checklist
+
+- [ ] Change MySQL root password
+- [ ] Use strong JWT secret key
+- [ ] Enable HTTPS (nginx SSL)
+- [ ] Configure CORS properly
+- [ ] Use environment variables for secrets
+- [ ] Enable rate limiting
+- [ ] Set up backup for volumes
+
+### Environment Variables
+
+Create `.env` file:
+```env
+MYSQL_ROOT_PASSWORD=strong_password
+JWT_SECRET=your_very_long_secret_key_here
+JWT_EXPIRATION=86400000
 ```
-┌─────────────────────────────────────────────────┐
-│              Docker Network (hotel-network)      │
-│                                                  │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐      │
-│  │  MySQL   │  │ Backend  │  │ Frontend │      │
-│  │  :3306   │◄─┤  :8080   │◄─┤   :80    │      │
-│  └──────────┘  └──────────┘  └──────────┘      │
-│       │                                          │
-│   [Volume]                                       │
-└─────────────────────────────────────────────────┘
-         │                │              │
-    Port 3306        Port 8080      Port 80
+
+Update `docker-compose.yml`:
+```yaml
+environment:
+  - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 ```
 
 ---
 
-## 🐛 Dépannage
+## 📊 Monitoring
 
-### Le backend ne démarre pas
+### Health Checks
 
 ```powershell
-# Vérifier les logs
-docker-compose logs backend
+# Backend health
+curl http://localhost:8080/actuator/health
 
-# Redémarrer le service
-docker-compose restart backend
+# Database connection
+docker exec hotel-mysql mysqladmin -uroot -proot ping
 ```
 
-### MySQL n'est pas prêt
+### Resource Usage
 
 ```powershell
-# Attendre que MySQL soit ready
-docker-compose logs mysql | Select-String "ready for connections"
+# Container stats
+docker stats
 
-# Redémarrer dans l'ordre
-docker-compose restart mysql
-docker-compose restart backend
-```
-
-### Port déjà utilisé
-
-```powershell
-# Trouver le processus qui utilise le port
-netstat -ano | findstr :8080
-netstat -ano | findstr :3306
-
-# Changer les ports dans docker-compose.yml
-# Exemple: "8081:8080" au lieu de "8080:8080"
-```
-
-### Problèmes de réseau
-
-```powershell
-# Recréer le réseau
-docker-compose down
-docker network prune
-docker-compose up -d
+# Specific service
+docker stats hotel-backend
 ```
 
 ---
 
-## 🎯 Recommandations
+## 🌍 Documentation
 
-### Pour le développement
-- Utilisez l'**exécution locale** pour bénéficier du hot reload
-- Utilisez Docker pour MySQL seulement si vous ne voulez pas l'installer localement
-
-### Pour les tests
-- Utilisez **Docker Compose** pour avoir un environnement identique à la production
-
-### Pour la production
-- Utilisez **Docker** avec orchestration (Kubernetes, Docker Swarm)
-- Ou déployez sans conteneur sur un serveur avec Java, MySQL et Nginx installés
+- [English Version](DOCKER_GUIDE.md) - English version
+- [French Version](DOCKER_GUIDE_FR.md) - Version française
 
 ---
 
-## 📝 Notes Importantes
+## 💡 Tips
 
-1. **Données**: Les données MySQL sont persistées dans un volume Docker (`mysql-data`)
-2. **Hot Reload**: Avec Docker, les modifications nécessitent un rebuild
-3. **Sécurité**: Changez les mots de passe avant la production
-4. **Performance**: Docker ajoute une légère surcharge, négligeable pour ce projet
-
----
-
-## 🆘 Support
-
-En cas de problème:
-1. Vérifier les logs: `docker-compose logs -f`
-2. Vérifier le statut: `docker-compose ps`
-3. Redémarrer les services: `docker-compose restart`
-4. Tout reconstruire: `docker-compose up -d --build --force-recreate`
+1. **Development**: Use `docker-compose up` (without `-d`) to see logs in terminal
+2. **Hot Reload**: Mount source code as volumes for auto-reload
+3. **Clean Start**: Use `docker-compose down -v && docker-compose up -d --build`
+4. **Backup**: Export volumes before major changes
+5. **Logs**: Check logs first when troubleshooting
 
 ---
 
-**Bon développement! 🚀**
+**Need help?** Check the main [README](README.md) or open an issue.
